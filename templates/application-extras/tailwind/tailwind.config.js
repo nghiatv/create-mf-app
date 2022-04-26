@@ -1,12 +1,12 @@
 module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
-  prefix: '{{PREFIX}}-',
+  prefix: '{{TAILWIND_PREFIX}}',
   theme: {
-    extend: {},
+    extend: {}
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 }

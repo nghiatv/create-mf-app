@@ -11,48 +11,16 @@ import { Project } from '../src/types'
       type: 'input',
       message: 'Pick the name of your app:',
       name: 'name',
-      default: 'host',
+      default: 'module'
     },
     {
       type: 'list',
       message: 'Project Type:',
       name: 'type',
-      choices: ['Application', 'API Server', 'Library'],
-      default: 'Application',
-    },
+      choices: ['Application'],
+      default: 'Application'
+    }
   ])
-
-  if (answers.type === 'Library') {
-    buildProject(answers)
-  }
-
-  if (answers.type === 'API Server') {
-    const templates = fs
-      .readdirSync(path.join(__dirname, '../templates/server'))
-      .sort()
-
-    const serverAnswers = await inquirer.prompt<Project>([
-      {
-        type: 'input',
-        message: 'Port number:',
-        name: 'port',
-        default: '8080',
-      },
-      {
-        type: 'list',
-        message: 'Template:',
-        name: 'framework',
-        choices: templates,
-        default: 'express',
-      },
-    ])
-
-    buildProject({
-      ...answers,
-      ...serverAnswers,
-      language: 'typescript',
-    })
-  }
 
   if (answers.type === 'Application') {
     const templates = fs
@@ -64,34 +32,40 @@ import { Project } from '../src/types'
         type: 'input',
         message: 'Port number:',
         name: 'port',
-        default: '8080',
+        default: '3030'
       },
       {
         type: 'list',
         message: 'Framework:',
         name: 'framework',
         choices: templates,
-        default: 'react',
+        default: 'react'
       },
       {
         type: 'list',
         message: 'Language:',
         name: 'language',
-        choices: ['typescript', 'javascript'],
-        default: 'javascript',
+        choices: ['typescript'],
+        default: 'typescript'
       },
       {
         type: 'list',
         message: 'CSS:',
         name: 'css',
         choices: ['CSS', 'Tailwind'],
-        default: 'CSS',
+        default: 'Tailwind'
       },
+      {
+        type: 'input',
+        message: "Tailwind Prefix:  (ignore if you don't use Tailwind)",
+        name: 'prefix',
+        default: ''
+      }
     ])
 
     buildProject({
       ...answers,
-      ...appAnswers,
+      ...appAnswers
     })
   }
 
@@ -100,7 +74,7 @@ import { Project } from '../src/types'
 Next steps:
 
 ▶️ cd ${answers.name}
-▶️ npm install
-▶️ npm start
+▶️ yarn
+▶️ yarn start
 `)
 })()

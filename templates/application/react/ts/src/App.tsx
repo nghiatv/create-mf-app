@@ -1,18 +1,18 @@
 import React, { Fragment } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-
+import NothingHere from './components/NothingHere'
 // @ts-ignore
 const SharedLayout = React.lazy(() => import('appshell/SharedLayout'))
 import './main.css'
 
 export const SCOPE = '{{SAFE_NAME}}'
 
-const Tenant = () => {
+const App = () => {
   return (
     <React.Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<Fragment />}>
-          <Route index element={<List />} />
+          <Route index element={<NothingHere />} />
         </Route>
       </Routes>
     </React.Suspense>
@@ -24,8 +24,9 @@ const LocalDev = () => (
     <SharedLayout>
       <Routes>
         <Route path={`/${SCOPE}`} element={<Fragment />}>
-          <Route index element={<List />} />
-        <Route path="*" element={<Navigate to={`/${SCOPE}`} />} />
+          <Route index element={<NothingHere />} />
+          <Route path="*" element={<Navigate to={`/${SCOPE}`} />} />
+        </Route>
       </Routes>
     </SharedLayout>
   </React.Suspense>
@@ -33,4 +34,4 @@ const LocalDev = () => (
 
 export { LocalDev }
 
-export default Tenant
+export default App

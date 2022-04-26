@@ -1,4 +1,29 @@
 {
-  "extends": "../tsconfig.base.json",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "paths": {
+      "lib-app/react": ["./lib-app/src/react"],
+      "lib-app/react-dom": ["./lib-app/src/react-dom"],
+      "appshell/SharedLayout": ["./appshell/src/SharedLayout"],
+      "appshell/Home": ["./appshell/src/components/Home.tsx"],
+      "appshell/services": ["./appshell/src/services"],
+      "user/App": ["./user/src/App"]
+    }
+  },
   "include": ["./src"]
 }

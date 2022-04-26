@@ -1,18 +1,18 @@
-import util from 'util'
-import fs from 'fs'
-import path from 'path'
-import glob from 'glob'
-import { Profiler, Project } from './types'
+import util from "util"
+import fs from "fs"
+import path from "path"
+import glob from "glob"
+import { Profiler, Project } from "./types"
 
-const ncp = util.promisify(require('ncp').ncp)
+const ncp = util.promisify(require("ncp").ncp)
 
 const templateFile = (fileName: string, replacements: Profiler) => {
-  const fileContent = fs.readFileSync(fileName, 'utf8').toString()
+  const fileContent = fs.readFileSync(fileName, "utf8").toString()
 
   const template = Object.entries(replacements).reduce((acc, [key, value]) => {
     return acc.replace(
-      new RegExp(`(\{\{${key}\}\}|\{\{ ${key} \}\})`, 'g'),
-      value?.toString() ?? ''
+      new RegExp(`(\{\{${key}\}\}|\{\{ ${key} \}\})`, "g"),
+      value?.toString() ?? ""
     )
   }, fileContent)
   fs.writeFileSync(fileName, template)
@@ -35,25 +35,30 @@ const buildProfiler = ({
   name,
   css,
   port,
+  prefix
 }: Project) => {
   const profiler: Profiler = {
     NAME: name,
     FRAMEWORK: framework,
-    SAFE_NAME: name.replace(/-/g, '_').trim(),
-    LANGUAGE: language === 'typescript' ? 'TypeScript' : 'JavaScript',
+    SAFE_NAME: name.replace(/-/g, "_").trim(),
+    LANGUAGE: language === "typescript" ? "TypeScript" : "JavaScript"
   }
 
-  if (type === 'API Server' || type === 'Application') {
+  if (type === "API Server" || type === "Application") {
     profiler.PORT = port
   }
 
-  if (type === 'Application') {
-    const isTailwind = css === 'Tailwind'
-    profiler.CSS_EXTENSION = isTailwind ? 'scss' : 'css'
+  if (type === "Application") {
+    const isTailwind = css === "Tailwind"
+    profiler.CSS_EXTENSION = isTailwind ? "scss" : "css"
     profiler.CONTAINER = isTailwind
-      ? 'mt-10 text-3xl mx-auto max-w-6xl'
-      : 'container'
-    profiler.CSS = isTailwind ? 'Tailwind' : 'Empty CSS'
+      ? "mt-10 text-3xl mx-auto max-w-6xl"
+      : "container"
+    profiler.CSS = isTailwind ? "Tailwind" : "Empty CSS"
+
+    if (isTailwind) {
+      profiler.TAILWIND_PREFIX = prefix
+    }
   }
   return profiler
 }
@@ -68,25 +73,12 @@ const buildProfiler = ({
 
 export const buildProject = async (project: Project) => {
   const { language, name, framework, type } = project
-  const lang = language === 'typescript' ? 'ts' : 'js'
+  const lang = language === "typescript" ? "ts" : "js"
   const tempDir = type.toLowerCase()
   const profiler = buildProfiler(project)
 
   switch (type) {
-    case 'Library':
-      await ncp(
-        path.join(__dirname, `../templates/${tempDir}/typescript`),
-        project.name
-      )
-      break
-
-    case 'API Server':
-      await ncp(
-        path.join(__dirname, `../templates/${tempDir}/${framework}`),
-        name
-      )
-      break
-    case 'Application':
+    case "Application":
       {
         await ncp(
           path.join(__dirname, `../templates/${tempDir}/${framework}/base`),
@@ -100,16 +92,16 @@ export const buildProject = async (project: Project) => {
         fs.unlinkSync(path.normalize(`${name}/src/index.css`))
 
         await ncp(
-          path.join(__dirname, '../templates/application-extras/tailwind'),
+          path.join(__dirname, "../templates/application-extras/tailwind"),
           name
         )
 
         const packageJSON = JSON.parse(
-          fs.readFileSync(path.join(name, 'package.json'), 'utf8')
+          fs.readFileSync(path.join(name, "package.json"), "utf8")
         )
-        packageJSON.devDependencies.tailwindcss = '^2.0.2'
+        packageJSON.devDependencies.tailwindcss = "^2.0.2"
         fs.writeFileSync(
-          path.join(name, 'package.json'),
+          path.join(name, "package.json"),
           JSON.stringify(packageJSON, null, 2)
         )
       }
