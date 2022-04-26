@@ -2,16 +2,19 @@
   "name": "{{NAME}}",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack --mode production",
-    "build:dev": "webpack --mode development",
-    "build:start": "cd dist && PORT={{PORT}} npx serve",
-    "start": "webpack serve --open --mode development",
-    "start:live": "webpack serve --open --mode development --live-reload --hot"
+    "build": "webpack --config ./config/webpack.prod.js",
+    "build:sandbox": "webpack --config ./config/webpack.sandbox.js",
+    "build:dev": "webpack --config ./config/webpack.dev.js",
+    "build:start": "cd dist && PORT=3004 npx serve",
+    "start": "webpack serve --config ./config/webpack.dev.js",
+    "start:live": "webpack serve --open --config ./config/webpack.dev.js --live-reload --hot",
+    "precodegen": "apollo schema:download --endpoint=https://api.sandbox.vuiapp.vn/graphql src/apollo/graphql-schema.json",
+    "codegen": "apollo client:codegen --includes='src/apollo/**/*.ts' --excludes='src/apollo/**/local.*.ts' --globalTypesFile=src/apollo/graphql-global-types.ts --addTypename --localSchemaFile='src/apollo/graphql-schema.json' --target=typescript --outputFlat=src/__generated__"
   },
   "license": "MIT",
   "author": {
-    "name": "Jack Herrington",
-    "email": "jherr@pobox.com"
+    "name": "Nghia Than",
+    "email": "nghiait0111@gmail.com"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
@@ -21,6 +24,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
+    "@webpack-cli/serve": "^1.6.1",
     "autoprefixer": "^10.1.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.3.0",
@@ -28,13 +32,31 @@
     "postcss": "^8.2.1",
     "postcss-loader": "^4.1.0",
     "style-loader": "^3.3.0",
+    "tailwindcss": "3.0.23",
     "typescript": "^4.5.2",
-    "webpack": "^5.57.1",
-    "webpack-cli": "^4.9.0",
-    "webpack-dev-server": "^4.3.1"
+    "webpack": "5.70.0",
+    "webpack-cli": "4.9.2",
+    "webpack-dev-server": "4.7.4",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "@apollo/client": "^3.5.8",
+    "@headlessui/react": "1.5.0",
+    "@heroicons/react": "^1.0.6",
+    "@popperjs/core": "^2.11.5",
+    "@react-keycloak/web": "^3.4.0",
+    "@tinymce/tinymce-react": "^4.0.0",
+    "date-fns": "^2.28.0",
+    "graphql": "^16.2.0",
+    "js-file-download": "^0.4.12",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-dropzone": "^12.0.5",
+    "react-hook-form": "^7.28.0",
+    "react-popper": "^2.2.5",
+    "react-router-dom": "6",
+    "react-table": "^7.7.0",
+    "react-use": "^17.3.2",
+    "use-react-router-breadcrumbs": "^3.1.0"
   }
 }
