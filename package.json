@@ -1,6 +1,6 @@
 {
   "name": "create-nano-module",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Create module for Vui services",
   "main": "src/index.js",
   "bin": "bin/create-nano-module.js",
