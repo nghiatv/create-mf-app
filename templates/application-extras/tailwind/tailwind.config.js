@@ -1,6 +1,6 @@
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
+  content: ['./src/**/*.{html,js,tsx,ts,jsx}', './src/*.{html,js,tsx,ts,jsx}'],
+  darkMode: 'class',
   prefix: '{{TAILWIND_PREFIX}}',
   theme: {
     extend: {}
