@@ -89,7 +89,7 @@ export const buildProject = async (project: Project) => {
           name
         )
 
-        fs.unlinkSync(path.normalize(`${name}/src/index.css`))
+        fs.unlinkSync(path.normalize(`${name}/src/main.css`))
 
         await ncp(
           path.join(__dirname, "../templates/application-extras/tailwind"),
@@ -99,7 +99,7 @@ export const buildProject = async (project: Project) => {
         const packageJSON = JSON.parse(
           fs.readFileSync(path.join(name, "package.json"), "utf8")
         )
-        packageJSON.devDependencies.tailwindcss = "^2.0.2"
+        packageJSON.devDependencies.tailwindcss = "^3.0.24"
         fs.writeFileSync(
           path.join(name, "package.json"),
           JSON.stringify(packageJSON, null, 2)
