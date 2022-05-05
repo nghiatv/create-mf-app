@@ -1,17 +1,17 @@
-import React, { Fragment } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import NothingHere from './components/NothingHere'
+import React, { Fragment } from "react"
+import { Navigate, Route, Routes } from "react-router-dom"
+import NothingHere from "./components/NothingHere"
 // @ts-ignore
-const SharedLayout = React.lazy(() => import('appshell/SharedLayout'))
-import './main.css'
+const SharedLayout = React.lazy(() => import("appshell/SharedLayout"))
+import "./main.css"
 
-export const SCOPE = '{{SAFE_NAME}}'
+export const SCOPE = "{{SAFE_NAME}}"
 
 const App = () => {
   return (
     <React.Suspense fallback={null}>
       <Routes>
-        <Route path="/" element={<Fragment />}>
+        <Route path="/">
           <Route index element={<NothingHere />} />
         </Route>
       </Routes>
@@ -20,10 +20,10 @@ const App = () => {
 }
 
 const LocalDev = () => (
-  <React.Suspense fallback={'loading shell...'}>
+  <React.Suspense fallback={"loading shell..."}>
     <SharedLayout>
       <Routes>
-        <Route path={`/${SCOPE}`} element={<Fragment />}>
+        <Route path={`/${SCOPE}`}>
           <Route index element={<NothingHere />} />
           <Route path="*" element={<Navigate to={`/${SCOPE}`} />} />
         </Route>
